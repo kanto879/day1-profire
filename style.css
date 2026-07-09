@@ -1,0 +1,187 @@
+body {
+  background-color: #eef4ff;
+  font-family: sans-serif;
+  color: #333333;
+  margin: 0;
+  padding: 40px;
+}
+
+.card {
+  background-color: white;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+h1 {
+  color: #0055cc;
+  font-size: 36px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.lead {
+  font-size: 20px;
+  text-align: center;
+  color: #555555;
+  margin-bottom: 30px;
+}
+
+.section {
+  background-color: #f7f9ff;
+  padding: 20px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+h2 {
+  color: #004499;
+  border-left: 5px solid #0055cc;
+  padding-left: 10px;
+  margin-top: 0;
+}
+
+p {
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+ul {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.study-list {
+  display: grid;
+  gap: 12px;
+}
+
+.study-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 5px solid #0055cc;
+}
+
+.study-item span {
+  display: inline-block;
+  background-color: #0055cc;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.study-item p {
+  margin: 0;
+}
+
+.button {
+  display: inline-block;
+  background-color: #0055cc;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  margin-top: 24px;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #003f99;
+}
+.counter-box {
+  background-color: #ffffff;
+  border: 2px solid #d9e6ff;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.count-number {
+  font-size: 48px;
+  font-weight: bold;
+  color: #0055cc;
+  margin: 10px 0;
+}
+.input-box {
+  background-color: #ffffff;
+  border: 2px solid #d9e6ff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 2px solid #d9e6ff;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+#memoText {
+  background-color: #f7f9ff;
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 16px;
+}
+
+#memoList {
+  background-color: transparent;
+  padding: 0;
+  margin-top: 20px;
+  list-style: none;
+}
+
+#memoList li {
+  background-color: #f7f9ff;
+  border-left: 5px solid #0055cc;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#memoList li.done {
+  text-decoration: line-through;
+  color: #999999;
+  background-color: #eeeeee;
+  border-left-color: #999999;
+}
+
+#memoList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+#memoList li span {
+  flex: 1;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #cc0000;
+}
