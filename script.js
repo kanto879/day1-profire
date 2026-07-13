@@ -1,5 +1,6 @@
 const memoInput = document.getElementById("memoInput");
 const addButton = document.getElementById("addButton");
+const clearButton = document.getElementById("clearButton");
 const memoList = document.getElementById("memoList");
 
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -73,6 +74,16 @@ addButton.addEventListener("click", function() {
 memoInput.addEventListener("keydown", function(event) {
   if (event.key === "Enter") {
     addMemo();
+  }
+});
+
+clearButton.addEventListener("click", function() {
+  const confirmDelete = confirm("すべてのメモを削除しますか？");
+
+  if (confirmDelete) {
+    memos = [];
+    saveMemos();
+    renderMemos();
   }
 });
 
