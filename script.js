@@ -3,10 +3,26 @@ const addButton = document.getElementById("addButton");
 const clearButton = document.getElementById("clearButton");
 const memoList = document.getElementById("memoList");
 
+const totalCount = document.getElementById("totalCount");
+const doneCount = document.getElementById("doneCount");
+const activeCount = document.getElementById("activeCount");
+
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
 
 function saveMemos() {
   localStorage.setItem("memos", JSON.stringify(memos));
+}
+
+function updateCounts() {
+  const total = memos.length;
+  const done = memos.filter(function(memo) {
+    return memo.done;
+  }).length;
+  const active = total - done;
+
+  totalCount.textContent = total;
+  doneCount.textContent = done;
+  activeCount.textContent = active;
 }
 
 function renderMemos() {
@@ -43,7 +59,9 @@ function renderMemos() {
 
     memoList.appendChild(listItem);
   });
+    updateCounts();
 }
+
 
 function addMemo() {
   const inputValue = memoInput.value;

@@ -195,6 +195,10 @@ input {
     border-radius: 16px;
   }
 
+  .summary-box {
+    flex-direction: column;
+  }
+  
   h1 {
     font-size: 28px;
   }
@@ -261,4 +265,26 @@ input {
 
 .clear-button:hover {
   background-color: #444444;
+}
+
+.summary-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: #f7f9ff;
+  border: 2px solid #d9e6ff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.summary-box p {
+  margin: 0;
+  font-weight: bold;
+  color: #004499;
+}
+
+.summary-box span {
+  font-size: 22px;
+  color: #0055cc;
 }
