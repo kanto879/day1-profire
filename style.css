@@ -186,6 +186,22 @@ input {
   background-color: #cc0000;
 }
 @media (max-width: 600px) {
+
+  .button-area {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .edit-button {
+    width: 100%;
+  }
+
+  .cancel-button {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
   body {
     padding: 16px;
   }
@@ -287,4 +303,40 @@ input {
 .summary-box span {
   font-size: 22px;
   color: #0055cc;
+}
+
+.button-area {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-button {
+  background-color: #00a86b;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #007f52;
+}
+
+.cancel-button {
+  display: inline-block;
+  background-color: #999999;
+  color: white;
+  border: none;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  margin-top: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #666666;
 }
