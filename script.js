@@ -2,6 +2,7 @@ const memoInput = document.getElementById("memoInput");
 const addButton = document.getElementById("addButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
+const searchInput = document.getElementById("searchInput");
 const memoList = document.getElementById("memoList");
 
 const totalCount = document.getElementById("totalCount");
@@ -76,19 +77,29 @@ function resetEditMode() {
 }
 
 function getFilteredMemos() {
+  const keyword = searchInput.value.trim().toLowerCase();
+
+  let filteredMemos = memos;
+
   if (currentFilter === "active") {
-    return memos.filter(function(memo) {
+    filteredMemos = filteredMemos.filter(function(memo) {
       return !memo.done;
     });
   }
 
   if (currentFilter === "done") {
-    return memos.filter(function(memo) {
+    filteredMemos = filteredMemos.filter(function(memo) {
       return memo.done;
     });
   }
 
-  return memos;
+  if (keyword !== "") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.text.toLowerCase().includes(keyword);
+    });
+  }
+
+  return filteredMemos;
 }
 
 function renderMemos() {
@@ -222,6 +233,10 @@ showActiveButton.addEventListener("click", function() {
 
 showDoneButton.addEventListener("click", function() {
   currentFilter = "done";
+  renderMemos();
+});
+
+searchInput.addEventListener("input", function() {
   renderMemos();
 });
 
