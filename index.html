@@ -70,7 +70,13 @@
   <p>未完了：<span id="activeCount">0</span>件</p>
 </div>
 
-<ul id="memoList"></ul> 
+<div class="filter-box">
+  <button class="filter-button active-filter" id="showAllButton">すべて</button>
+  <button class="filter-button" id="showActiveButton">未完了</button>
+  <button class="filter-button" id="showDoneButton">完了済み</button>
+</div>
+
+<ul id="memoList"></ul>
 </div>
   
 <script src="script.js"></script>

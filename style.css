@@ -265,6 +265,14 @@ input {
     width: 100%;
     margin-top: 8px;
   }
+
+   .filter-box {
+    flex-direction: column;
+  }
+
+  .filter-button {
+    width: 100%;
+  } 
 }
 .clear-button {
   display: inline-block;
@@ -356,4 +364,30 @@ input {
 
 #memoList li.done .memo-date {
   color: #999999;
+}
+
+.filter-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.filter-button {
+  flex: 1;
+  background-color: #ffffff;
+  color: #0055cc;
+  border: 2px solid #0055cc;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: #eef4ff;
+}
+
+.active-filter {
+  background-color: #0055cc;
+  color: white;
 }

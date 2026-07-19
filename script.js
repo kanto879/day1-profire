@@ -8,14 +8,23 @@ const totalCount = document.getElementById("totalCount");
 const doneCount = document.getElementById("doneCount");
 const activeCount = document.getElementById("activeCount");
 
+const showAllButton = document.getElementById("showAllButton");
+const showActiveButton = document.getElementById("showActiveButton");
+const showDoneButton = document.getElementById("showDoneButton");
+
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
 let editIndex = null;
+let currentFilter = "all";
 
 function saveMemos() {
   localStorage.setItem("memos", JSON.stringify(memos));
 }
 
 function formatDate(dateText) {
+  if (!dateText) {
+    return "日時なし";
+  }
+
   const date = new Date(dateText);
 
   return date.toLocaleString("ja-JP", {
@@ -41,6 +50,24 @@ function updateCounts() {
   activeCount.textContent = active;
 }
 
+function updateFilterButtons() {
+  showAllButton.classList.remove("active-filter");
+  showActiveButton.classList.remove("active-filter");
+  showDoneButton.classList.remove("active-filter");
+
+  if (currentFilter === "all") {
+    showAllButton.classList.add("active-filter");
+  }
+
+  if (currentFilter === "active") {
+    showActiveButton.classList.add("active-filter");
+  }
+
+  if (currentFilter === "done") {
+    showDoneButton.classList.add("active-filter");
+  }
+}
+
 function resetEditMode() {
   editIndex = null;
   addButton.textContent = "追加する";
@@ -48,10 +75,30 @@ function resetEditMode() {
   memoInput.focus();
 }
 
+function getFilteredMemos() {
+  if (currentFilter === "active") {
+    return memos.filter(function(memo) {
+      return !memo.done;
+    });
+  }
+
+  if (currentFilter === "done") {
+    return memos.filter(function(memo) {
+      return memo.done;
+    });
+  }
+
+  return memos;
+}
+
 function renderMemos() {
   memoList.innerHTML = "";
 
-  memos.forEach(function(memo, index) {
+  const filteredMemos = getFilteredMemos();
+
+  filteredMemos.forEach(function(memo) {
+    const originalIndex = memos.indexOf(memo);
+
     const listItem = document.createElement("li");
 
     if (memo.done) {
@@ -83,23 +130,23 @@ function renderMemos() {
     deleteButton.classList.add("delete-button");
 
     memoContent.addEventListener("click", function() {
-      memos[index].done = !memos[index].done;
+      memos[originalIndex].done = !memos[originalIndex].done;
       saveMemos();
       renderMemos();
     });
 
     editButton.addEventListener("click", function() {
-      editIndex = index;
+      editIndex = originalIndex;
       memoInput.value = memo.text;
       addButton.textContent = "保存する";
       memoInput.focus();
     });
 
     deleteButton.addEventListener("click", function() {
-      memos.splice(index, 1);
+      memos.splice(originalIndex, 1);
       saveMemos();
 
-      if (editIndex === index) {
+      if (editIndex === originalIndex) {
         resetEditMode();
       }
 
@@ -116,6 +163,7 @@ function renderMemos() {
   });
 
   updateCounts();
+  updateFilterButtons();
 }
 
 function addMemo() {
@@ -160,6 +208,21 @@ clearButton.addEventListener("click", function() {
     renderMemos();
     resetEditMode();
   }
+});
+
+showAllButton.addEventListener("click", function() {
+  currentFilter = "all";
+  renderMemos();
+});
+
+showActiveButton.addEventListener("click", function() {
+  currentFilter = "active";
+  renderMemos();
+});
+
+showDoneButton.addEventListener("click", function() {
+  currentFilter = "done";
+  renderMemos();
 });
 
 memoInput.addEventListener("keydown", function(event) {
