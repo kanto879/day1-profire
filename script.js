@@ -15,6 +15,18 @@ function saveMemos() {
   localStorage.setItem("memos", JSON.stringify(memos));
 }
 
+function formatDate(dateText) {
+  const date = new Date(dateText);
+
+  return date.toLocaleString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 function updateCounts() {
   const total = memos.length;
 
@@ -46,8 +58,18 @@ function renderMemos() {
       listItem.classList.add("done");
     }
 
+    const memoContent = document.createElement("div");
+    memoContent.classList.add("memo-content");
+
     const memoText = document.createElement("span");
     memoText.textContent = memo.text;
+
+    const memoDate = document.createElement("small");
+    memoDate.classList.add("memo-date");
+    memoDate.textContent = "作成日：" + formatDate(memo.createdAt);
+
+    memoContent.appendChild(memoText);
+    memoContent.appendChild(memoDate);
 
     const buttonArea = document.createElement("div");
     buttonArea.classList.add("button-area");
@@ -60,7 +82,7 @@ function renderMemos() {
     deleteButton.textContent = "削除";
     deleteButton.classList.add("delete-button");
 
-    memoText.addEventListener("click", function() {
+    memoContent.addEventListener("click", function() {
       memos[index].done = !memos[index].done;
       saveMemos();
       renderMemos();
@@ -87,7 +109,7 @@ function renderMemos() {
     buttonArea.appendChild(editButton);
     buttonArea.appendChild(deleteButton);
 
-    listItem.appendChild(memoText);
+    listItem.appendChild(memoContent);
     listItem.appendChild(buttonArea);
 
     memoList.appendChild(listItem);
@@ -107,7 +129,8 @@ function addMemo() {
   if (editIndex === null) {
     const newMemo = {
       text: inputValue,
-      done: false
+      done: false,
+      createdAt: new Date().toISOString()
     };
 
     memos.push(newMemo);

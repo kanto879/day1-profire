@@ -340,3 +340,20 @@ input {
 .cancel-button:hover {
   background-color: #666666;
 }
+
+.memo-content {
+  flex: 1;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.memo-date {
+  font-size: 12px;
+  color: #777777;
+}
+
+#memoList li.done .memo-date {
+  color: #999999;
+}
