@@ -187,6 +187,22 @@ input {
 }
 @media (max-width: 600px) {
 
+    .input-box {
+    padding: 20px;
+  }
+
+  .summary-box p {
+    text-align: left;
+  }
+
+  .filter-box {
+    border-radius: 20px;
+  }
+
+  #memoList li:hover {
+    transform: none;
+  }
+
   .button-area {
     flex-direction: column;
     width: 100%;
@@ -404,3 +420,108 @@ input {
   border-radius: 999px;
   font-size: 16px;
 }
+
+.app-header {
+  margin-bottom: 20px;
+}
+
+.app-header h2 {
+  margin-bottom: 8px;
+}
+
+.app-header p {
+  margin: 0;
+  color: #666666;
+  font-size: 15px;
+}
+
+.input-box {
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
+  border: 2px solid #d9e6ff;
+  border-radius: 20px;
+  padding: 28px;
+  margin-top: 28px;
+}
+
+#memoInput {
+  border-radius: 999px;
+  border: 2px solid #c8dcff;
+  background-color: #ffffff;
+}
+
+#memoInput:focus,
+#searchInput:focus {
+  outline: none;
+  border-color: #0055cc;
+  box-shadow: 0 0 0 4px rgba(0, 85, 204, 0.12);
+}
+
+.button,
+.clear-button,
+.cancel-button,
+.filter-button,
+.edit-button,
+.delete-button {
+  transition: 0.2s;
+}
+
+.button:hover,
+.clear-button:hover,
+.cancel-button:hover,
+.filter-button:hover,
+.edit-button:hover,
+.delete-button:hover {
+  transform: translateY(-1px);
+}
+
+.summary-box {
+  box-shadow: 0 6px 18px rgba(0, 85, 204, 0.08);
+}
+
+.summary-box p {
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  flex: 1;
+}
+
+.search-box {
+  margin-top: 22px;
+}
+
+.filter-box {
+  background-color: #ffffff;
+  border-radius: 999px;
+  padding: 6px;
+  box-shadow: 0 6px 18px rgba(0, 85, 204, 0.08);
+}
+
+.filter-button {
+  border: none;
+}
+
+#memoList {
+  margin-top: 22px;
+}
+
+#memoList li {
+  background-color: #ffffff;
+  border: 1px solid #d9e6ff;
+  box-shadow: 0 6px 18px rgba(0, 85, 204, 0.06);
+}
+
+#memoList li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 85, 204, 0.1);
+}
+
+.memo-content span {
+  font-weight: bold;
+  color: #333333;
+}
+
+#memoList li.done .memo-content span {
+  color: #999999;
+}
+

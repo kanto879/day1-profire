@@ -16,7 +16,7 @@ PC初心者の状態から、Codexを使いながらWeb制作とJavaScriptの基
 
 例：
 
-https://kanto879.github.io/day1-profile/
+https://kanto879.github.io/day1-profire/
 
 ---
 
