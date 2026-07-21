@@ -1,4 +1,5 @@
 const memoInput = document.getElementById("memoInput");
+const prioritySelect = document.getElementById("prioritySelect");
 const addButton = document.getElementById("addButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
@@ -37,6 +38,18 @@ function formatDate(dateText) {
   });
 }
 
+function getPriorityText(priority) {
+  if (priority === "high") {
+    return "高";
+  }
+
+  if (priority === "low") {
+    return "低";
+  }
+
+  return "中";
+}
+
 function updateCounts() {
   const total = memos.length;
 
@@ -73,6 +86,7 @@ function resetEditMode() {
   editIndex = null;
   addButton.textContent = "追加する";
   memoInput.value = "";
+  prioritySelect.value = "medium";
   memoInput.focus();
 }
 
@@ -116,17 +130,24 @@ function renderMemos() {
       listItem.classList.add("done");
     }
 
+    listItem.classList.add("priority-" + (memo.priority || "medium"));
+
     const memoContent = document.createElement("div");
     memoContent.classList.add("memo-content");
 
     const memoText = document.createElement("span");
     memoText.textContent = memo.text;
 
+    const memoPriority = document.createElement("small");
+    memoPriority.classList.add("memo-priority");
+    memoPriority.textContent = "優先度：" + getPriorityText(memo.priority);
+
     const memoDate = document.createElement("small");
     memoDate.classList.add("memo-date");
     memoDate.textContent = "作成日：" + formatDate(memo.createdAt);
 
     memoContent.appendChild(memoText);
+    memoContent.appendChild(memoPriority);
     memoContent.appendChild(memoDate);
 
     const buttonArea = document.createElement("div");
@@ -149,6 +170,7 @@ function renderMemos() {
     editButton.addEventListener("click", function() {
       editIndex = originalIndex;
       memoInput.value = memo.text;
+      prioritySelect.value = memo.priority || "medium";
       addButton.textContent = "保存する";
       memoInput.focus();
     });
@@ -179,6 +201,7 @@ function renderMemos() {
 
 function addMemo() {
   const inputValue = memoInput.value;
+  const selectedPriority = prioritySelect.value;
 
   if (inputValue.trim() === "") {
     alert("メモを入力してください");
@@ -189,12 +212,14 @@ function addMemo() {
     const newMemo = {
       text: inputValue,
       done: false,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      priority: selectedPriority
     };
 
     memos.push(newMemo);
   } else {
     memos[editIndex].text = inputValue;
+    memos[editIndex].priority = selectedPriority;
   }
 
   saveMemos();

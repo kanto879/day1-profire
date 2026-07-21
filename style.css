@@ -525,3 +525,39 @@ input {
   color: #999999;
 }
 
+#prioritySelect {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 2px solid #d9e6ff;
+  border-radius: 999px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  background-color: white;
+}
+
+#prioritySelect:focus {
+  outline: none;
+  border-color: #0055cc;
+  box-shadow: 0 0 0 4px rgba(0, 85, 204, 0.12);
+}
+
+.memo-priority {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #444444;
+}
+
+.priority-high {
+  border-left: 6px solid #ff4d4d !important;
+}
+
+.priority-medium {
+  border-left: 6px solid #ffaa00 !important;
+}
+
+.priority-low {
+  border-left: 6px solid #00a86b !important;
+}
+
