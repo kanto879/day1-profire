@@ -5,6 +5,7 @@ const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
 const searchInput = document.getElementById("searchInput");
 const memoList = document.getElementById("memoList");
+const emptyMessage = document.getElementById("emptyMessage");
 
 const totalCount = document.getElementById("totalCount");
 const doneCount = document.getElementById("doneCount");
@@ -146,6 +147,18 @@ function renderMemos() {
   memoList.innerHTML = "";
 
   const filteredMemos = getFilteredMemos();
+
+  if (filteredMemos.length === 0) {
+  emptyMessage.style.display = "block";
+
+  if (memos.length === 0) {
+    emptyMessage.textContent = "まだメモがありません。最初のメモを追加してみましょう。";
+  } else {
+    emptyMessage.textContent = "条件に合うメモがありません。検索やフィルターを変更してみましょう。";
+  }
+} else {
+  emptyMessage.style.display = "none";
+}
 
   filteredMemos.forEach(function(memo) {
     const originalIndex = memos.indexOf(memo);

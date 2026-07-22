@@ -592,4 +592,15 @@ input {
   border-color: #0055cc;
 }
 
+.empty-message {
+  background-color: #ffffff;
+  border: 2px dashed #c8dcff;
+  color: #666666;
+  text-align: center;
+  padding: 24px;
+  border-radius: 16px;
+  margin-top: 22px;
+  font-weight: bold;
+}
+
 
