@@ -289,7 +289,16 @@ input {
   .filter-button {
     width: 100%;
   } 
+
+    .sort-box {
+    flex-direction: column;
+  }
+
+  .sort-button {
+    width: 100%;
+  }
 }
+
 .clear-button {
   display: inline-block;
   background-color: #777777;
@@ -560,4 +569,27 @@ input {
 .priority-low {
   border-left: 6px solid #00a86b !important;
 }
+
+.sort-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.sort-button {
+  flex: 1;
+  background-color: #ffffff;
+  color: #333333;
+  border: 2px solid #d9e6ff;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sort-button:hover {
+  background-color: #f7f9ff;
+  border-color: #0055cc;
+}
+
 

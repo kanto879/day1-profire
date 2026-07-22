@@ -13,10 +13,13 @@ const activeCount = document.getElementById("activeCount");
 const showAllButton = document.getElementById("showAllButton");
 const showActiveButton = document.getElementById("showActiveButton");
 const showDoneButton = document.getElementById("showDoneButton");
+const sortPriorityButton = document.getElementById("sortPriorityButton");
+const sortDateButton = document.getElementById("sortDateButton");
 
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
 let editIndex = null;
 let currentFilter = "all";
+let currentSort = "date";
 
 function saveMemos() {
   localStorage.setItem("memos", JSON.stringify(memos));
@@ -37,7 +40,6 @@ function formatDate(dateText) {
     minute: "2-digit"
   });
 }
-
 function getPriorityText(priority) {
   if (priority === "high") {
     return "高";
@@ -48,6 +50,18 @@ function getPriorityText(priority) {
   }
 
   return "中";
+}
+
+function getPriorityScore(priority) {
+  if (priority === "high") {
+    return 3;
+  }
+
+  if (priority === "medium") {
+    return 2;
+  }
+
+  return 1;
 }
 
 function updateCounts() {
@@ -93,7 +107,7 @@ function resetEditMode() {
 function getFilteredMemos() {
   const keyword = searchInput.value.trim().toLowerCase();
 
-  let filteredMemos = memos;
+  let filteredMemos = memos.slice();
 
   if (currentFilter === "active") {
     filteredMemos = filteredMemos.filter(function(memo) {
@@ -110,6 +124,18 @@ function getFilteredMemos() {
   if (keyword !== "") {
     filteredMemos = filteredMemos.filter(function(memo) {
       return memo.text.toLowerCase().includes(keyword);
+    });
+  }
+
+  if (currentSort === "priority") {
+    filteredMemos.sort(function(a, b) {
+      return getPriorityScore(b.priority) - getPriorityScore(a.priority);
+    });
+  }
+
+  if (currentSort === "date") {
+    filteredMemos.sort(function(a, b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
     });
   }
 
@@ -262,6 +288,16 @@ showDoneButton.addEventListener("click", function() {
 });
 
 searchInput.addEventListener("input", function() {
+  renderMemos();
+});
+
+sortPriorityButton.addEventListener("click", function() {
+  currentSort = "priority";
+  renderMemos();
+});
+
+sortDateButton.addEventListener("click", function() {
+  currentSort = "date";
   renderMemos();
 });
 
