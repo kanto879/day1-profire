@@ -1,5 +1,6 @@
 const memoInput = document.getElementById("memoInput");
 const prioritySelect = document.getElementById("prioritySelect");
+const dueDateInput = document.getElementById("dueDateInput");
 const addButton = document.getElementById("addButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
@@ -41,6 +42,15 @@ function formatDate(dateText) {
     minute: "2-digit"
   });
 }
+
+function formatDueDate(dateText) {
+  if (!dateText) {
+    return "期限なし";
+  }
+
+  return dateText.replaceAll("-", "/");
+}
+
 function getPriorityText(priority) {
   if (priority === "high") {
     return "高";
@@ -102,6 +112,7 @@ function resetEditMode() {
   addButton.textContent = "追加する";
   memoInput.value = "";
   prioritySelect.value = "medium";
+  dueDateInput.value = "";
   memoInput.focus();
 }
 
@@ -181,6 +192,10 @@ function renderMemos() {
     memoPriority.classList.add("memo-priority");
     memoPriority.textContent = "優先度：" + getPriorityText(memo.priority);
 
+    const memoDueDate = document.createElement("small");
+memoDueDate.classList.add("memo-due-date");
+memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
+
     const memoDate = document.createElement("small");
     memoDate.classList.add("memo-date");
     memoDate.textContent = "作成日：" + formatDate(memo.createdAt);
@@ -210,6 +225,7 @@ function renderMemos() {
       editIndex = originalIndex;
       memoInput.value = memo.text;
       prioritySelect.value = memo.priority || "medium";
+      dueDateInput.value = memo.dueDate || "";
       addButton.textContent = "保存する";
       memoInput.focus();
     });
@@ -241,6 +257,7 @@ function renderMemos() {
 function addMemo() {
   const inputValue = memoInput.value;
   const selectedPriority = prioritySelect.value;
+  const selectedDueDate = dueDateInput.value;
 
   if (inputValue.trim() === "") {
     alert("メモを入力してください");
@@ -252,13 +269,15 @@ function addMemo() {
       text: inputValue,
       done: false,
       createdAt: new Date().toISOString(),
-      priority: selectedPriority
+      priority: selectedPriority,
+      dueDate: selectedDueDate
     };
 
     memos.push(newMemo);
   } else {
     memos[editIndex].text = inputValue;
     memos[editIndex].priority = selectedPriority;
+    memos[editIndex].dueDate = selectedDueDate;
   }
 
   saveMemos();

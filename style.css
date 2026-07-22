@@ -603,4 +603,28 @@ input {
   font-weight: bold;
 }
 
+#dueDateInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 2px solid #d9e6ff;
+  border-radius: 999px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  background-color: white;
+}
+
+#dueDateInput:focus {
+  outline: none;
+  border-color: #0055cc;
+  box-shadow: 0 0 0 4px rgba(0, 85, 204, 0.12);
+}
+
+.memo-due-date {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #cc6600;
+}
+
 
