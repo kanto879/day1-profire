@@ -627,4 +627,25 @@ input {
   color: #cc6600;
 }
 
+#memoList li.overdue {
+  background-color: #fff5f5;
+  border-color: #ff9999;
+}
+
+.overdue-label {
+  display: inline-block;
+  width: fit-content;
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+#memoList li.overdue .memo-due-date {
+  color: #cc0000;
+  font-weight: bold;
+}
+
 

@@ -15,6 +15,7 @@ const activeCount = document.getElementById("activeCount");
 const showAllButton = document.getElementById("showAllButton");
 const showActiveButton = document.getElementById("showActiveButton");
 const showDoneButton = document.getElementById("showDoneButton");
+
 const sortPriorityButton = document.getElementById("sortPriorityButton");
 const sortDateButton = document.getElementById("sortDateButton");
 
@@ -49,6 +50,19 @@ function formatDueDate(dateText) {
   }
 
   return dateText.replaceAll("-", "/");
+}
+
+function isOverdue(dueDate) {
+  if (!dueDate) {
+    return false;
+  }
+
+  const today = new Date();
+  const due = new Date(dueDate + "T00:00:00");
+
+  today.setHours(0, 0, 0, 0);
+
+  return due < today;
 }
 
 function getPriorityText(priority) {
@@ -147,7 +161,7 @@ function getFilteredMemos() {
 
   if (currentSort === "date") {
     filteredMemos.sort(function(a, b) {
-      return new Date(b.createdAt) - new Date(a.createdAt);
+      return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
     });
   }
 
@@ -160,16 +174,16 @@ function renderMemos() {
   const filteredMemos = getFilteredMemos();
 
   if (filteredMemos.length === 0) {
-  emptyMessage.style.display = "block";
+    emptyMessage.style.display = "block";
 
-  if (memos.length === 0) {
-    emptyMessage.textContent = "まだメモがありません。最初のメモを追加してみましょう。";
+    if (memos.length === 0) {
+      emptyMessage.textContent = "まだメモがありません。最初のメモを追加してみましょう。";
+    } else {
+      emptyMessage.textContent = "条件に合うメモがありません。検索やフィルターを変更してみましょう。";
+    }
   } else {
-    emptyMessage.textContent = "条件に合うメモがありません。検索やフィルターを変更してみましょう。";
+    emptyMessage.style.display = "none";
   }
-} else {
-  emptyMessage.style.display = "none";
-}
 
   filteredMemos.forEach(function(memo) {
     const originalIndex = memos.indexOf(memo);
@@ -178,6 +192,10 @@ function renderMemos() {
 
     if (memo.done) {
       listItem.classList.add("done");
+    }
+
+    if (isOverdue(memo.dueDate) && !memo.done) {
+      listItem.classList.add("overdue");
     }
 
     listItem.classList.add("priority-" + (memo.priority || "medium"));
@@ -193,8 +211,12 @@ function renderMemos() {
     memoPriority.textContent = "優先度：" + getPriorityText(memo.priority);
 
     const memoDueDate = document.createElement("small");
-memoDueDate.classList.add("memo-due-date");
-memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
+    memoDueDate.classList.add("memo-due-date");
+    memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
+
+    const overdueLabel = document.createElement("small");
+    overdueLabel.classList.add("overdue-label");
+    overdueLabel.textContent = "期限切れ";
 
     const memoDate = document.createElement("small");
     memoDate.classList.add("memo-date");
@@ -202,6 +224,12 @@ memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
 
     memoContent.appendChild(memoText);
     memoContent.appendChild(memoPriority);
+    memoContent.appendChild(memoDueDate);
+
+    if (isOverdue(memo.dueDate) && !memo.done) {
+      memoContent.appendChild(overdueLabel);
+    }
+
     memoContent.appendChild(memoDate);
 
     const buttonArea = document.createElement("div");
@@ -221,7 +249,9 @@ memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
       renderMemos();
     });
 
-    editButton.addEventListener("click", function() {
+    editButton.addEventListener("click", function(event) {
+      event.stopPropagation();
+
       editIndex = originalIndex;
       memoInput.value = memo.text;
       prioritySelect.value = memo.priority || "medium";
@@ -230,7 +260,9 @@ memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
       memoInput.focus();
     });
 
-    deleteButton.addEventListener("click", function() {
+    deleteButton.addEventListener("click", function(event) {
+      event.stopPropagation();
+
       memos.splice(originalIndex, 1);
       saveMemos();
 
@@ -319,10 +351,6 @@ showDoneButton.addEventListener("click", function() {
   renderMemos();
 });
 
-searchInput.addEventListener("input", function() {
-  renderMemos();
-});
-
 sortPriorityButton.addEventListener("click", function() {
   currentSort = "priority";
   renderMemos();
@@ -330,6 +358,10 @@ sortPriorityButton.addEventListener("click", function() {
 
 sortDateButton.addEventListener("click", function() {
   currentSort = "date";
+  renderMemos();
+});
+
+searchInput.addEventListener("input", function() {
   renderMemos();
 });
 
