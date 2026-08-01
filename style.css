@@ -306,6 +306,16 @@ input {
     width: 100%;
   }
 
+   .delete-actions {
+    flex-direction: column;
+  }
+
+  .clear-completed-button {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  } 
+
 }
 
 .clear-button {
@@ -760,4 +770,34 @@ input {
 
 .sort-button {
   font-size: 14px;
+}
+
+.delete-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.clear-completed-button {
+  flex: 1;
+  display: inline-block;
+  background-color: #00a86b;
+  color: white;
+  border: none;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.clear-completed-button:hover {
+  background-color: #007f52;
+  transform: translateY(-1px);
+}
+
+.delete-actions .clear-button {
+  flex: 1;
+  margin-top: 0;
 }

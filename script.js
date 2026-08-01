@@ -2,6 +2,7 @@ const memoInput = document.getElementById("memoInput");
 const prioritySelect = document.getElementById("prioritySelect");
 const dueDateInput = document.getElementById("dueDateInput");
 const addButton = document.getElementById("addButton");
+const clearCompletedButton = document.getElementById("clearCompletedButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
 const searchInput = document.getElementById("searchInput");
@@ -513,6 +514,29 @@ addButton.addEventListener("click", function() {
 
 cancelEditButton.addEventListener("click", function() {
   resetEditMode();
+});
+
+clearCompletedButton.addEventListener("click", function() {
+  const completedCount = memos.filter(function(memo) {
+    return memo.done;
+  }).length;
+
+  if (completedCount === 0) {
+    alert("完了済みのメモがありません");
+    return;
+  }
+
+  const confirmDelete = confirm("完了済みのメモを削除しますか？");
+
+  if (confirmDelete) {
+    memos = memos.filter(function(memo) {
+      return !memo.done;
+    });
+
+    saveMemos();
+    renderMemos();
+    resetEditMode();
+  }
 });
 
 clearButton.addEventListener("click", function() {
