@@ -73,8 +73,16 @@
  <button class="button" id="addButton">追加する</button>
  <button class="cancel-button" id="cancelEditButton">編集をやめる</button>
 
- <div class="delete-actions">
+<div class="backup-actions">
   <button class="export-button" id="exportButton">データをエクスポート</button>
+
+  <label class="import-label" for="importInput">
+    データをインポート
+  </label>
+  <input type="file" id="importInput" accept=".json">
+</div>
+
+<div class="delete-actions">
   <button class="clear-completed-button" id="clearCompletedButton">完了済みを削除</button>
   <button class="clear-button" id="clearButton">すべて削除</button>
 </div>

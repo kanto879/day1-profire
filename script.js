@@ -3,6 +3,7 @@ const prioritySelect = document.getElementById("prioritySelect");
 const dueDateInput = document.getElementById("dueDateInput");
 const addButton = document.getElementById("addButton");
 const exportButton = document.getElementById("exportButton");
+const importInput = document.getElementById("importInput");
 const clearCompletedButton = document.getElementById("clearCompletedButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
@@ -532,12 +533,58 @@ function exportMemos() {
   URL.revokeObjectURL(url);
 }
 
+function importMemos(file) {
+  const reader = new FileReader();
+
+  reader.addEventListener("load", function() {
+    try {
+      const importedMemos = JSON.parse(reader.result);
+
+      if (!Array.isArray(importedMemos)) {
+        alert("正しいメモデータではありません");
+        return;
+      }
+
+      const confirmImport = confirm("現在のメモを上書きして、インポートしますか？");
+
+      if (!confirmImport) {
+        importInput.value = "";
+        return;
+      }
+
+      memos = importedMemos;
+      saveMemos();
+      renderMemos();
+      resetEditMode();
+
+      importInput.value = "";
+
+      alert("データをインポートしました");
+    } catch (error) {
+      alert("JSONファイルの読み込みに失敗しました");
+      importInput.value = "";
+    }
+  });
+
+  reader.readAsText(file);
+}
+
 addButton.addEventListener("click", function() {
   addMemo();
 });
 
 exportButton.addEventListener("click", function() {
   exportMemos();
+});
+
+importInput.addEventListener("change", function() {
+  const file = importInput.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  importMemos(file);
 });
 
 cancelEditButton.addEventListener("click", function() {
