@@ -23,11 +23,16 @@ const showAllDueButton = document.getElementById("showAllDueButton");
 const showOverdueButton = document.getElementById("showOverdueButton");
 const showWithDueButton = document.getElementById("showWithDueButton");
 const showNoDueButton = document.getElementById("showNoDueButton");
+const showAllPriorityButton = document.getElementById("showAllPriorityButton");
+const showHighPriorityButton = document.getElementById("showHighPriorityButton");
+const showMediumPriorityButton = document.getElementById("showMediumPriorityButton");
+const showLowPriorityButton = document.getElementById("showLowPriorityButton");
 
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
 let editIndex = null;
 let currentFilter = "all";
 let currentDueFilter = "all";
+let currentPriorityFilter = "all";
 let currentSort = "date";
 
 function saveMemos() {
@@ -222,6 +227,29 @@ function updateDueFilterButtons() {
   }
 }
 
+function updatePriorityFilterButtons() {
+  showAllPriorityButton.classList.remove("active-priority-filter");
+  showHighPriorityButton.classList.remove("active-priority-filter");
+  showMediumPriorityButton.classList.remove("active-priority-filter");
+  showLowPriorityButton.classList.remove("active-priority-filter");
+
+  if (currentPriorityFilter === "all") {
+    showAllPriorityButton.classList.add("active-priority-filter");
+  }
+
+  if (currentPriorityFilter === "high") {
+    showHighPriorityButton.classList.add("active-priority-filter");
+  }
+
+  if (currentPriorityFilter === "medium") {
+    showMediumPriorityButton.classList.add("active-priority-filter");
+  }
+
+  if (currentPriorityFilter === "low") {
+    showLowPriorityButton.classList.add("active-priority-filter");
+  }
+}
+
 function resetEditMode() {
   editIndex = null;
   addButton.textContent = "追加する";
@@ -263,6 +291,24 @@ function getFilteredMemos() {
   if (currentDueFilter === "noDue") {
     filteredMemos = filteredMemos.filter(function(memo) {
       return !memo.dueDate;
+    });
+  }
+
+  if (currentPriorityFilter === "high") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.priority === "high";
+    });
+  }
+
+  if (currentPriorityFilter === "medium") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return (memo.priority || "medium") === "medium";
+    });
+  }
+
+  if (currentPriorityFilter === "low") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.priority === "low";
     });
   }
 
@@ -408,6 +454,7 @@ function renderMemos() {
   updateCounts();
   updateFilterButtons();
   updateDueFilterButtons();
+  updatePriorityFilterButtons();
 }
 
 function addMemo() {
@@ -492,6 +539,26 @@ showWithDueButton.addEventListener("click", function() {
 
 showNoDueButton.addEventListener("click", function() {
   currentDueFilter = "noDue";
+  renderMemos();
+});
+
+showAllPriorityButton.addEventListener("click", function() {
+  currentPriorityFilter = "all";
+  renderMemos();
+});
+
+showHighPriorityButton.addEventListener("click", function() {
+  currentPriorityFilter = "high";
+  renderMemos();
+});
+
+showMediumPriorityButton.addEventListener("click", function() {
+  currentPriorityFilter = "medium";
+  renderMemos();
+});
+
+showLowPriorityButton.addEventListener("click", function() {
+  currentPriorityFilter = "low";
   renderMemos();
 });
 

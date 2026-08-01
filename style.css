@@ -297,6 +297,15 @@ input {
   .sort-button {
     width: 100%;
   }
+
+    .priority-filter-box {
+    grid-template-columns: 1fr;
+  }
+
+  .priority-filter-button {
+    width: 100%;
+  }
+
 }
 
 .clear-button {
@@ -720,4 +729,31 @@ input {
   font-weight: bold;
 }
 
+.priority-filter-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
 
+.priority-filter-button {
+  background-color: #ffffff;
+  color: #0055cc;
+  border: 2px solid #c8dcff;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.priority-filter-button:hover {
+  background-color: #eef4ff;
+  transform: translateY(-1px);
+}
+
+.active-priority-filter {
+  background-color: #0055cc;
+  color: white;
+  border-color: #0055cc;
+}
