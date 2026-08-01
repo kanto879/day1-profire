@@ -648,4 +648,33 @@ input {
   font-weight: bold;
 }
 
+.due-filter-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.due-filter-button {
+  background-color: #ffffff;
+  color: #cc6600;
+  border: 2px solid #ffd9a3;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.due-filter-button:hover {
+  background-color: #fff7ed;
+  transform: translateY(-1px);
+}
+
+.active-due-filter {
+  background-color: #cc6600;
+  color: white;
+  border-color: #cc6600;
+}
+
 

@@ -18,10 +18,15 @@ const showDoneButton = document.getElementById("showDoneButton");
 
 const sortPriorityButton = document.getElementById("sortPriorityButton");
 const sortDateButton = document.getElementById("sortDateButton");
+const showAllDueButton = document.getElementById("showAllDueButton");
+const showOverdueButton = document.getElementById("showOverdueButton");
+const showWithDueButton = document.getElementById("showWithDueButton");
+const showNoDueButton = document.getElementById("showNoDueButton");
 
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
 let editIndex = null;
 let currentFilter = "all";
+let currentDueFilter = "all";
 let currentSort = "date";
 
 function saveMemos() {
@@ -119,6 +124,29 @@ function updateFilterButtons() {
   if (currentFilter === "done") {
     showDoneButton.classList.add("active-filter");
   }
+
+  function updateDueFilterButtons() {
+  showAllDueButton.classList.remove("active-due-filter");
+  showOverdueButton.classList.remove("active-due-filter");
+  showWithDueButton.classList.remove("active-due-filter");
+  showNoDueButton.classList.remove("active-due-filter");
+
+  if (currentDueFilter === "all") {
+    showAllDueButton.classList.add("active-due-filter");
+  }
+
+  if (currentDueFilter === "overdue") {
+    showOverdueButton.classList.add("active-due-filter");
+  }
+
+  if (currentDueFilter === "withDue") {
+    showWithDueButton.classList.add("active-due-filter");
+  }
+
+  if (currentDueFilter === "noDue") {
+    showNoDueButton.classList.add("active-due-filter");
+  }
+}
 }
 
 function resetEditMode() {
@@ -144,6 +172,24 @@ function getFilteredMemos() {
   if (currentFilter === "done") {
     filteredMemos = filteredMemos.filter(function(memo) {
       return memo.done;
+    });
+  }
+
+  if (currentDueFilter === "overdue") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return isOverdue(memo.dueDate) && !memo.done;
+    });
+  }
+
+  if (currentDueFilter === "withDue") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.dueDate;
+    });
+  }
+
+  if (currentDueFilter === "noDue") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return !memo.dueDate;
     });
   }
 
@@ -284,6 +330,7 @@ function renderMemos() {
 
   updateCounts();
   updateFilterButtons();
+  updateDueFilterButtons();
 }
 
 function addMemo() {
@@ -348,6 +395,26 @@ showActiveButton.addEventListener("click", function() {
 
 showDoneButton.addEventListener("click", function() {
   currentFilter = "done";
+  renderMemos();
+});
+
+showAllDueButton.addEventListener("click", function() {
+  currentDueFilter = "all";
+  renderMemos();
+});
+
+showOverdueButton.addEventListener("click", function() {
+  currentDueFilter = "overdue";
+  renderMemos();
+});
+
+showWithDueButton.addEventListener("click", function() {
+  currentDueFilter = "withDue";
+  renderMemos();
+});
+
+showNoDueButton.addEventListener("click", function() {
+  currentDueFilter = "noDue";
   renderMemos();
 });
 
