@@ -757,3 +757,7 @@ input {
   color: white;
   border-color: #0055cc;
 }
+
+.sort-button {
+  font-size: 14px;
+}

@@ -17,6 +17,7 @@ const showActiveButton = document.getElementById("showActiveButton");
 const showDoneButton = document.getElementById("showDoneButton");
 
 const sortPriorityButton = document.getElementById("sortPriorityButton");
+const sortDueDateButton = document.getElementById("sortDueDateButton");
 const sortDateButton = document.getElementById("sortDateButton");
 
 const showAllDueButton = document.getElementById("showAllDueButton");
@@ -319,16 +320,34 @@ function getFilteredMemos() {
   }
 
   if (currentSort === "priority") {
-    filteredMemos.sort(function(a, b) {
-      return getPriorityScore(b.priority) - getPriorityScore(a.priority);
-    });
-  }
+  filteredMemos.sort(function(a, b) {
+    return getPriorityScore(b.priority) - getPriorityScore(a.priority);
+  });
+}
 
-  if (currentSort === "date") {
-    filteredMemos.sort(function(a, b) {
-      return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-    });
-  }
+if (currentSort === "dueDate") {
+  filteredMemos.sort(function(a, b) {
+    if (!a.dueDate && !b.dueDate) {
+      return 0;
+    }
+
+    if (!a.dueDate) {
+      return 1;
+    }
+
+    if (!b.dueDate) {
+      return -1;
+    }
+
+    return new Date(a.dueDate) - new Date(b.dueDate);
+  });
+}
+
+if (currentSort === "date") {
+  filteredMemos.sort(function(a, b) {
+    return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+  });
+}
 
   return filteredMemos;
 }
@@ -564,6 +583,11 @@ showLowPriorityButton.addEventListener("click", function() {
 
 sortPriorityButton.addEventListener("click", function() {
   currentSort = "priority";
+  renderMemos();
+});
+
+sortDueDateButton.addEventListener("click", function() {
+  currentSort = "dueDate";
   renderMemos();
 });
 
