@@ -316,6 +316,12 @@ input {
     box-sizing: border-box;
   } 
 
+    .export-button {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
 }
 
 .clear-button {
@@ -800,4 +806,23 @@ input {
 .delete-actions .clear-button {
   flex: 1;
   margin-top: 0;
+}
+
+.export-button {
+  flex: 1;
+  display: inline-block;
+  background-color: #0055cc;
+  color: white;
+  border: none;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.export-button:hover {
+  background-color: #003f99;
+  transform: translateY(-1px);
 }

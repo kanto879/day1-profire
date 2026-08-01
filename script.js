@@ -2,6 +2,7 @@ const memoInput = document.getElementById("memoInput");
 const prioritySelect = document.getElementById("prioritySelect");
 const dueDateInput = document.getElementById("dueDateInput");
 const addButton = document.getElementById("addButton");
+const exportButton = document.getElementById("exportButton");
 const clearCompletedButton = document.getElementById("clearCompletedButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
@@ -508,8 +509,35 @@ function addMemo() {
   resetEditMode();
 }
 
+function exportMemos() {
+  if (memos.length === 0) {
+    alert("エクスポートするメモがありません");
+    return;
+  }
+
+  const data = JSON.stringify(memos, null, 2);
+
+  const blob = new Blob([data], {
+    type: "application/json"
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "memos-backup.json";
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
 addButton.addEventListener("click", function() {
   addMemo();
+});
+
+exportButton.addEventListener("click", function() {
+  exportMemos();
 });
 
 cancelEditButton.addEventListener("click", function() {
