@@ -18,6 +18,7 @@ const showDoneButton = document.getElementById("showDoneButton");
 
 const sortPriorityButton = document.getElementById("sortPriorityButton");
 const sortDateButton = document.getElementById("sortDateButton");
+
 const showAllDueButton = document.getElementById("showAllDueButton");
 const showOverdueButton = document.getElementById("showOverdueButton");
 const showWithDueButton = document.getElementById("showWithDueButton");
@@ -68,6 +69,78 @@ function isOverdue(dueDate) {
   today.setHours(0, 0, 0, 0);
 
   return due < today;
+}
+
+function getDaysUntilDue(dueDate) {
+  if (!dueDate) {
+    return null;
+  }
+
+  const today = new Date();
+  const due = new Date(dueDate + "T00:00:00");
+
+  today.setHours(0, 0, 0, 0);
+
+  const difference = due - today;
+  const days = difference / (1000 * 60 * 60 * 24);
+
+  return days;
+}
+
+function getDueStatusText(dueDate, done) {
+  if (!dueDate) {
+    return "";
+  }
+
+  if (done) {
+    return "";
+  }
+
+  const days = getDaysUntilDue(dueDate);
+
+  if (days < 0) {
+    return "期限切れ";
+  }
+
+  if (days === 0) {
+    return "今日が期限";
+  }
+
+  if (days === 1) {
+    return "明日が期限";
+  }
+
+  if (days <= 3) {
+    return "期限が近い";
+  }
+
+  return "";
+}
+
+function getDueStatusClass(dueDate, done) {
+  if (!dueDate) {
+    return "";
+  }
+
+  if (done) {
+    return "";
+  }
+
+  const days = getDaysUntilDue(dueDate);
+
+  if (days < 0) {
+    return "overdue";
+  }
+
+  if (days === 0) {
+    return "due-today";
+  }
+
+  if (days <= 3) {
+    return "due-soon";
+  }
+
+  return "";
 }
 
 function getPriorityText(priority) {
@@ -124,8 +197,9 @@ function updateFilterButtons() {
   if (currentFilter === "done") {
     showDoneButton.classList.add("active-filter");
   }
+}
 
-  function updateDueFilterButtons() {
+function updateDueFilterButtons() {
   showAllDueButton.classList.remove("active-due-filter");
   showOverdueButton.classList.remove("active-due-filter");
   showWithDueButton.classList.remove("active-due-filter");
@@ -146,7 +220,6 @@ function updateFilterButtons() {
   if (currentDueFilter === "noDue") {
     showNoDueButton.classList.add("active-due-filter");
   }
-}
 }
 
 function resetEditMode() {
@@ -240,8 +313,10 @@ function renderMemos() {
       listItem.classList.add("done");
     }
 
-    if (isOverdue(memo.dueDate) && !memo.done) {
-      listItem.classList.add("overdue");
+    const dueStatusClass = getDueStatusClass(memo.dueDate, memo.done);
+
+    if (dueStatusClass !== "") {
+      listItem.classList.add(dueStatusClass);
     }
 
     listItem.classList.add("priority-" + (memo.priority || "medium"));
@@ -260,9 +335,11 @@ function renderMemos() {
     memoDueDate.classList.add("memo-due-date");
     memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
 
-    const overdueLabel = document.createElement("small");
-    overdueLabel.classList.add("overdue-label");
-    overdueLabel.textContent = "期限切れ";
+    const dueStatusLabel = document.createElement("small");
+    dueStatusLabel.classList.add("due-status-label");
+
+    const dueStatusText = getDueStatusText(memo.dueDate, memo.done);
+    dueStatusLabel.textContent = dueStatusText;
 
     const memoDate = document.createElement("small");
     memoDate.classList.add("memo-date");
@@ -272,8 +349,8 @@ function renderMemos() {
     memoContent.appendChild(memoPriority);
     memoContent.appendChild(memoDueDate);
 
-    if (isOverdue(memo.dueDate) && !memo.done) {
-      memoContent.appendChild(overdueLabel);
+    if (dueStatusText !== "") {
+      memoContent.appendChild(dueStatusLabel);
     }
 
     memoContent.appendChild(memoDate);

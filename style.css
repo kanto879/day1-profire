@@ -677,4 +677,47 @@ input {
   border-color: #cc6600;
 }
 
+#memoList li.due-today {
+  background-color: #fff7ed;
+  border-color: #ff9900;
+}
+
+#memoList li.due-soon {
+  background-color: #fffbea;
+  border-color: #ffd24d;
+}
+
+.due-status-label {
+  display: inline-block;
+  width: fit-content;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #777777;
+}
+
+#memoList li.overdue .due-status-label {
+  background-color: #ff4d4d;
+}
+
+#memoList li.due-today .due-status-label {
+  background-color: #ff9900;
+}
+
+#memoList li.due-soon .due-status-label {
+  background-color: #e6a800;
+}
+
+#memoList li.due-today .memo-due-date {
+  color: #cc6600;
+  font-weight: bold;
+}
+
+#memoList li.due-soon .memo-due-date {
+  color: #996600;
+  font-weight: bold;
+}
+
 
