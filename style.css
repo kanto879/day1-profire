@@ -331,6 +331,14 @@ input {
     box-sizing: border-box;
   }
 
+    .category-filter-box {
+    grid-template-columns: 1fr;
+  }
+
+  .category-filter-button {
+    width: 100%;
+  }
+
 }
 
 .clear-button {
@@ -888,4 +896,33 @@ input {
   font-size: 12px;
   font-weight: bold;
   color: #6f42c1;
+}
+
+.category-filter-box {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.category-filter-button {
+  background-color: #ffffff;
+  color: #6f42c1;
+  border: 2px solid #d8c7ff;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.category-filter-button:hover {
+  background-color: #f6f0ff;
+  transform: translateY(-1px);
+}
+
+.active-category-filter {
+  background-color: #6f42c1;
+  color: white;
+  border-color: #6f42c1;
 }

@@ -2,12 +2,14 @@ const memoInput = document.getElementById("memoInput");
 const prioritySelect = document.getElementById("prioritySelect");
 const categorySelect = document.getElementById("categorySelect");
 const dueDateInput = document.getElementById("dueDateInput");
+
 const addButton = document.getElementById("addButton");
 const exportButton = document.getElementById("exportButton");
 const importInput = document.getElementById("importInput");
 const clearCompletedButton = document.getElementById("clearCompletedButton");
 const clearButton = document.getElementById("clearButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
+
 const searchInput = document.getElementById("searchInput");
 const memoList = document.getElementById("memoList");
 const emptyMessage = document.getElementById("emptyMessage");
@@ -20,24 +22,34 @@ const showAllButton = document.getElementById("showAllButton");
 const showActiveButton = document.getElementById("showActiveButton");
 const showDoneButton = document.getElementById("showDoneButton");
 
-const sortPriorityButton = document.getElementById("sortPriorityButton");
-const sortDueDateButton = document.getElementById("sortDueDateButton");
-const sortDateButton = document.getElementById("sortDateButton");
-
 const showAllDueButton = document.getElementById("showAllDueButton");
 const showOverdueButton = document.getElementById("showOverdueButton");
 const showWithDueButton = document.getElementById("showWithDueButton");
 const showNoDueButton = document.getElementById("showNoDueButton");
+
 const showAllPriorityButton = document.getElementById("showAllPriorityButton");
 const showHighPriorityButton = document.getElementById("showHighPriorityButton");
 const showMediumPriorityButton = document.getElementById("showMediumPriorityButton");
 const showLowPriorityButton = document.getElementById("showLowPriorityButton");
 
+const showAllCategoryButton = document.getElementById("showAllCategoryButton");
+const showStudyCategoryButton = document.getElementById("showStudyCategoryButton");
+const showWorkCategoryButton = document.getElementById("showWorkCategoryButton");
+const showPersonalCategoryButton = document.getElementById("showPersonalCategoryButton");
+const showOtherCategoryButton = document.getElementById("showOtherCategoryButton");
+
+const sortPriorityButton = document.getElementById("sortPriorityButton");
+const sortDueDateButton = document.getElementById("sortDueDateButton");
+const sortDateButton = document.getElementById("sortDateButton");
+
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
+
 let editIndex = null;
+
 let currentFilter = "all";
 let currentDueFilter = "all";
 let currentPriorityFilter = "all";
+let currentCategoryFilter = "all";
 let currentSort = "date";
 
 function saveMemos() {
@@ -165,18 +177,6 @@ function getPriorityText(priority) {
   return "中";
 }
 
-function getPriorityScore(priority) {
-  if (priority === "high") {
-    return 3;
-  }
-
-  if (priority === "medium") {
-    return 2;
-  }
-
-  return 1;
-}
-
 function getCategoryText(category) {
   if (category === "work") {
     return "仕事";
@@ -191,6 +191,18 @@ function getCategoryText(category) {
   }
 
   return "学習";
+}
+
+function getPriorityScore(priority) {
+  if (priority === "high") {
+    return 3;
+  }
+
+  if (priority === "medium") {
+    return 2;
+  }
+
+  return 1;
 }
 
 function updateCounts() {
@@ -271,6 +283,34 @@ function updatePriorityFilterButtons() {
   }
 }
 
+function updateCategoryFilterButtons() {
+  showAllCategoryButton.classList.remove("active-category-filter");
+  showStudyCategoryButton.classList.remove("active-category-filter");
+  showWorkCategoryButton.classList.remove("active-category-filter");
+  showPersonalCategoryButton.classList.remove("active-category-filter");
+  showOtherCategoryButton.classList.remove("active-category-filter");
+
+  if (currentCategoryFilter === "all") {
+    showAllCategoryButton.classList.add("active-category-filter");
+  }
+
+  if (currentCategoryFilter === "study") {
+    showStudyCategoryButton.classList.add("active-category-filter");
+  }
+
+  if (currentCategoryFilter === "work") {
+    showWorkCategoryButton.classList.add("active-category-filter");
+  }
+
+  if (currentCategoryFilter === "personal") {
+    showPersonalCategoryButton.classList.add("active-category-filter");
+  }
+
+  if (currentCategoryFilter === "other") {
+    showOtherCategoryButton.classList.add("active-category-filter");
+  }
+}
+
 function resetEditMode() {
   editIndex = null;
   addButton.textContent = "追加する";
@@ -334,6 +374,30 @@ function getFilteredMemos() {
     });
   }
 
+  if (currentCategoryFilter === "study") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return (memo.category || "study") === "study";
+    });
+  }
+
+  if (currentCategoryFilter === "work") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.category === "work";
+    });
+  }
+
+  if (currentCategoryFilter === "personal") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.category === "personal";
+    });
+  }
+
+  if (currentCategoryFilter === "other") {
+    filteredMemos = filteredMemos.filter(function(memo) {
+      return memo.category === "other";
+    });
+  }
+
   if (keyword !== "") {
     filteredMemos = filteredMemos.filter(function(memo) {
       return memo.text.toLowerCase().includes(keyword);
@@ -341,34 +405,34 @@ function getFilteredMemos() {
   }
 
   if (currentSort === "priority") {
-  filteredMemos.sort(function(a, b) {
-    return getPriorityScore(b.priority) - getPriorityScore(a.priority);
-  });
-}
+    filteredMemos.sort(function(a, b) {
+      return getPriorityScore(b.priority) - getPriorityScore(a.priority);
+    });
+  }
 
-if (currentSort === "dueDate") {
-  filteredMemos.sort(function(a, b) {
-    if (!a.dueDate && !b.dueDate) {
-      return 0;
-    }
+  if (currentSort === "dueDate") {
+    filteredMemos.sort(function(a, b) {
+      if (!a.dueDate && !b.dueDate) {
+        return 0;
+      }
 
-    if (!a.dueDate) {
-      return 1;
-    }
+      if (!a.dueDate) {
+        return 1;
+      }
 
-    if (!b.dueDate) {
-      return -1;
-    }
+      if (!b.dueDate) {
+        return -1;
+      }
 
-    return new Date(a.dueDate) - new Date(b.dueDate);
-  });
-}
+      return new Date(a.dueDate) - new Date(b.dueDate);
+    });
+  }
 
-if (currentSort === "date") {
-  filteredMemos.sort(function(a, b) {
-    return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-  });
-}
+  if (currentSort === "date") {
+    filteredMemos.sort(function(a, b) {
+      return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+    });
+  }
 
   return filteredMemos;
 }
@@ -501,6 +565,7 @@ function renderMemos() {
   updateFilterButtons();
   updateDueFilterButtons();
   updatePriorityFilterButtons();
+  updateCategoryFilterButtons();
 }
 
 function addMemo() {
@@ -704,6 +769,31 @@ showMediumPriorityButton.addEventListener("click", function() {
 
 showLowPriorityButton.addEventListener("click", function() {
   currentPriorityFilter = "low";
+  renderMemos();
+});
+
+showAllCategoryButton.addEventListener("click", function() {
+  currentCategoryFilter = "all";
+  renderMemos();
+});
+
+showStudyCategoryButton.addEventListener("click", function() {
+  currentCategoryFilter = "study";
+  renderMemos();
+});
+
+showWorkCategoryButton.addEventListener("click", function() {
+  currentCategoryFilter = "work";
+  renderMemos();
+});
+
+showPersonalCategoryButton.addEventListener("click", function() {
+  currentCategoryFilter = "personal";
+  renderMemos();
+});
+
+showOtherCategoryButton.addEventListener("click", function() {
+  currentCategoryFilter = "other";
   renderMemos();
 });
 
