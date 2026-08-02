@@ -339,6 +339,13 @@ input {
     width: 100%;
   }
 
+    .category-count-box {
+    grid-template-columns: 1fr;
+  }
+
+  .category-count-box p {
+    text-align: left;
+  }
 }
 
 .clear-button {
@@ -925,4 +932,30 @@ input {
   background-color: #6f42c1;
   color: white;
   border-color: #6f42c1;
+}
+
+.category-count-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  background-color: #f6f0ff;
+  border: 2px solid #d8c7ff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.category-count-box p {
+  margin: 0;
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: bold;
+  color: #6f42c1;
+}
+
+.category-count-box span {
+  font-size: 22px;
+  color: #4b1d95;
 }

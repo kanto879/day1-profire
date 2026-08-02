@@ -18,6 +18,11 @@ const totalCount = document.getElementById("totalCount");
 const doneCount = document.getElementById("doneCount");
 const activeCount = document.getElementById("activeCount");
 
+const studyCount = document.getElementById("studyCount");
+const workCount = document.getElementById("workCount");
+const personalCount = document.getElementById("personalCount");
+const otherCount = document.getElementById("otherCount");
+
 const showAllButton = document.getElementById("showAllButton");
 const showActiveButton = document.getElementById("showActiveButton");
 const showDoneButton = document.getElementById("showDoneButton");
@@ -217,6 +222,29 @@ function updateCounts() {
   totalCount.textContent = total;
   doneCount.textContent = done;
   activeCount.textContent = active;
+}
+
+function updateCategoryCounts() {
+  const study = memos.filter(function(memo) {
+    return (memo.category || "study") === "study";
+  }).length;
+
+  const work = memos.filter(function(memo) {
+    return memo.category === "work";
+  }).length;
+
+  const personal = memos.filter(function(memo) {
+    return memo.category === "personal";
+  }).length;
+
+  const other = memos.filter(function(memo) {
+    return memo.category === "other";
+  }).length;
+
+  studyCount.textContent = study;
+  workCount.textContent = work;
+  personalCount.textContent = personal;
+  otherCount.textContent = other;
 }
 
 function updateFilterButtons() {
@@ -562,6 +590,7 @@ function renderMemos() {
   });
 
   updateCounts();
+  updateCategoryCounts();
   updateFilterButtons();
   updateDueFilterButtons();
   updatePriorityFilterButtons();
