@@ -1,5 +1,6 @@
 const memoInput = document.getElementById("memoInput");
 const prioritySelect = document.getElementById("prioritySelect");
+const categorySelect = document.getElementById("categorySelect");
 const dueDateInput = document.getElementById("dueDateInput");
 const addButton = document.getElementById("addButton");
 const exportButton = document.getElementById("exportButton");
@@ -176,6 +177,22 @@ function getPriorityScore(priority) {
   return 1;
 }
 
+function getCategoryText(category) {
+  if (category === "work") {
+    return "仕事";
+  }
+
+  if (category === "personal") {
+    return "個人";
+  }
+
+  if (category === "other") {
+    return "その他";
+  }
+
+  return "学習";
+}
+
 function updateCounts() {
   const total = memos.length;
 
@@ -259,6 +276,7 @@ function resetEditMode() {
   addButton.textContent = "追加する";
   memoInput.value = "";
   prioritySelect.value = "medium";
+  categorySelect.value = "study";
   dueDateInput.value = "";
   memoInput.focus();
 }
@@ -399,6 +417,10 @@ function renderMemos() {
     memoPriority.classList.add("memo-priority");
     memoPriority.textContent = "優先度：" + getPriorityText(memo.priority);
 
+    const memoCategory = document.createElement("small");
+    memoCategory.classList.add("memo-category");
+    memoCategory.textContent = "カテゴリー：" + getCategoryText(memo.category);
+
     const memoDueDate = document.createElement("small");
     memoDueDate.classList.add("memo-due-date");
     memoDueDate.textContent = "期限日：" + formatDueDate(memo.dueDate);
@@ -415,6 +437,7 @@ function renderMemos() {
 
     memoContent.appendChild(memoText);
     memoContent.appendChild(memoPriority);
+    memoContent.appendChild(memoCategory);
     memoContent.appendChild(memoDueDate);
 
     if (dueStatusText !== "") {
@@ -446,6 +469,7 @@ function renderMemos() {
       editIndex = originalIndex;
       memoInput.value = memo.text;
       prioritySelect.value = memo.priority || "medium";
+      categorySelect.value = memo.category || "study";
       dueDateInput.value = memo.dueDate || "";
       addButton.textContent = "保存する";
       memoInput.focus();
@@ -482,6 +506,7 @@ function renderMemos() {
 function addMemo() {
   const inputValue = memoInput.value;
   const selectedPriority = prioritySelect.value;
+  const selectedCategory = categorySelect.value;
   const selectedDueDate = dueDateInput.value;
 
   if (inputValue.trim() === "") {
@@ -495,6 +520,7 @@ function addMemo() {
       done: false,
       createdAt: new Date().toISOString(),
       priority: selectedPriority,
+      category: selectedCategory,
       dueDate: selectedDueDate
     };
 
@@ -502,6 +528,7 @@ function addMemo() {
   } else {
     memos[editIndex].text = inputValue;
     memos[editIndex].priority = selectedPriority;
+    memos[editIndex].category = selectedCategory;
     memos[editIndex].dueDate = selectedDueDate;
   }
 
