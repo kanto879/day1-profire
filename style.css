@@ -999,3 +999,11 @@ input {
 #memoList li.category-other .memo-category {
   color: #666666;
 }
+
+.sort-box {
+  flex-wrap: wrap;
+}
+
+.sort-button {
+  min-width: 160px;
+}

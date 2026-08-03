@@ -43,6 +43,7 @@ const showWorkCategoryButton = document.getElementById("showWorkCategoryButton")
 const showPersonalCategoryButton = document.getElementById("showPersonalCategoryButton");
 const showOtherCategoryButton = document.getElementById("showOtherCategoryButton");
 
+const sortUrgencyButton = document.getElementById("sortUrgencyButton");
 const sortPriorityButton = document.getElementById("sortPriorityButton");
 const sortDueDateButton = document.getElementById("sortDueDateButton");
 const sortDateButton = document.getElementById("sortDateButton");
@@ -142,6 +143,36 @@ function getDueStatusText(dueDate, done) {
   }
 
   return "";
+}
+
+function getUrgencyScore(memo) {
+  if (memo.done) {
+    return 0;
+  }
+
+  if (!memo.dueDate) {
+    return 1;
+  }
+
+  const days = getDaysUntilDue(memo.dueDate);
+
+  if (days < 0) {
+    return 5;
+  }
+
+  if (days === 0) {
+    return 4;
+  }
+
+  if (days === 1) {
+    return 3;
+  }
+
+  if (days <= 3) {
+    return 2;
+  }
+
+  return 1;
 }
 
 function getDueStatusClass(dueDate, done) {
@@ -431,6 +462,18 @@ function getFilteredMemos() {
       return memo.text.toLowerCase().includes(keyword);
     });
   }
+
+  if (currentSort === "urgency") {
+  filteredMemos.sort(function(a, b) {
+    const urgencyDifference = getUrgencyScore(b) - getUrgencyScore(a);
+
+    if (urgencyDifference !== 0) {
+      return urgencyDifference;
+    }
+
+    return getPriorityScore(b.priority) - getPriorityScore(a.priority);
+  });
+}
 
   if (currentSort === "priority") {
     filteredMemos.sort(function(a, b) {
@@ -824,6 +867,11 @@ showPersonalCategoryButton.addEventListener("click", function() {
 
 showOtherCategoryButton.addEventListener("click", function() {
   currentCategoryFilter = "other";
+  renderMemos();
+});
+
+sortUrgencyButton.addEventListener("click", function() {
+  currentSort = "urgency";
   renderMemos();
 });
 
