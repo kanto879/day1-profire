@@ -900,8 +900,12 @@ input {
 
 .memo-category {
   display: inline-block;
+  width: fit-content;
   font-size: 12px;
   font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #ffffff;
   color: #6f42c1;
 }
 
@@ -958,4 +962,40 @@ input {
 .category-count-box span {
   font-size: 22px;
   color: #4b1d95;
+}
+
+#memoList li.category-study {
+  background-color: #f0f6ff;
+  border-color: #9ec5ff;
+}
+
+#memoList li.category-work {
+  background-color: #f6f0ff;
+  border-color: #d8c7ff;
+}
+
+#memoList li.category-personal {
+  background-color: #f0fff6;
+  border-color: #a9e8c2;
+}
+
+#memoList li.category-other {
+  background-color: #f5f5f5;
+  border-color: #cccccc;
+}
+
+#memoList li.category-study .memo-category {
+  color: #0055cc;
+}
+
+#memoList li.category-work .memo-category {
+  color: #6f42c1;
+}
+
+#memoList li.category-personal .memo-category {
+  color: #008f5a;
+}
+
+#memoList li.category-other .memo-category {
+  color: #666666;
 }

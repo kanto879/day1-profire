@@ -498,6 +498,7 @@ function renderMemos() {
     }
 
     listItem.classList.add("priority-" + (memo.priority || "medium"));
+    listItem.classList.add("category-" + (memo.category || "study"));
 
     const memoContent = document.createElement("div");
     memoContent.classList.add("memo-content");
