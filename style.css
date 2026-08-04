@@ -1065,3 +1065,21 @@ input {
   line-height: 1.6;
   white-space: pre-wrap;
 }
+
+.detail-toggle-button {
+  width: fit-content;
+  background-color: #ffffff;
+  color: #0055cc;
+  border: 2px solid #c8dcff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.detail-toggle-button:hover {
+  background-color: #eef4ff;
+  transform: translateY(-1px);
+}

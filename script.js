@@ -148,6 +148,32 @@ function getDueStatusText(dueDate, done) {
   return "";
 }
 
+function getDueStatusClass(dueDate, done) {
+  if (!dueDate) {
+    return "";
+  }
+
+  if (done) {
+    return "";
+  }
+
+  const days = getDaysUntilDue(dueDate);
+
+  if (days < 0) {
+    return "overdue";
+  }
+
+  if (days === 0) {
+    return "due-today";
+  }
+
+  if (days <= 3) {
+    return "due-soon";
+  }
+
+  return "";
+}
+
 function getUrgencyScore(memo) {
   if (memo.done) {
     return 0;
@@ -176,32 +202,6 @@ function getUrgencyScore(memo) {
   }
 
   return 1;
-}
-
-function getDueStatusClass(dueDate, done) {
-  if (!dueDate) {
-    return "";
-  }
-
-  if (done) {
-    return "";
-  }
-
-  const days = getDaysUntilDue(dueDate);
-
-  if (days < 0) {
-    return "overdue";
-  }
-
-  if (days === 0) {
-    return "due-today";
-  }
-
-  if (days <= 3) {
-    return "due-soon";
-  }
-
-  return "";
 }
 
 function getPriorityText(priority) {
@@ -498,21 +498,24 @@ function getFilteredMemos() {
 
   if (keyword !== "") {
     filteredMemos = filteredMemos.filter(function(memo) {
-      return memo.text.toLowerCase().includes(keyword);
+      const titleMatch = memo.text.toLowerCase().includes(keyword);
+      const detailMatch = (memo.detail || "").toLowerCase().includes(keyword);
+
+      return titleMatch || detailMatch;
     });
   }
 
   if (currentSort === "urgency") {
-  filteredMemos.sort(function(a, b) {
-    const urgencyDifference = getUrgencyScore(b) - getUrgencyScore(a);
+    filteredMemos.sort(function(a, b) {
+      const urgencyDifference = getUrgencyScore(b) - getUrgencyScore(a);
 
-    if (urgencyDifference !== 0) {
-      return urgencyDifference;
-    }
+      if (urgencyDifference !== 0) {
+        return urgencyDifference;
+      }
 
-    return getPriorityScore(b.priority) - getPriorityScore(a.priority);
-  });
-}
+      return getPriorityScore(b.priority) - getPriorityScore(a.priority);
+    });
+  }
 
   if (currentSort === "priority") {
     filteredMemos.sort(function(a, b) {
@@ -592,6 +595,15 @@ function renderMemos() {
     memoDetail.classList.add("memo-detail");
     memoDetail.textContent = memo.detail || "";
 
+    const detailToggleButton = document.createElement("button");
+    detailToggleButton.classList.add("detail-toggle-button");
+
+    if (memo.detailOpen) {
+      detailToggleButton.textContent = "詳細を閉じる";
+    } else {
+      detailToggleButton.textContent = "詳細を見る";
+    }
+
     const memoPriority = document.createElement("small");
     memoPriority.classList.add("memo-priority");
     memoPriority.textContent = "優先度：" + getPriorityText(memo.priority);
@@ -616,11 +628,14 @@ function renderMemos() {
 
     memoContent.appendChild(memoText);
 
-   if (memo.detail) {
-    memoContent.appendChild(memoDetail);
+    if (memo.detail) {
+      memoContent.appendChild(detailToggleButton);
+
+      if (memo.detailOpen) {
+        memoContent.appendChild(memoDetail);
+      }
     }
 
-    memoContent.appendChild(memoText);
     memoContent.appendChild(memoPriority);
     memoContent.appendChild(memoCategory);
     memoContent.appendChild(memoDueDate);
@@ -641,6 +656,15 @@ function renderMemos() {
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "削除";
     deleteButton.classList.add("delete-button");
+
+    detailToggleButton.addEventListener("click", function(event) {
+      event.stopPropagation();
+
+      memos[originalIndex].detailOpen = !memos[originalIndex].detailOpen;
+
+      saveMemos();
+      renderMemos();
+    });
 
     memoContent.addEventListener("click", function() {
       memos[originalIndex].done = !memos[originalIndex].done;
@@ -708,6 +732,7 @@ function addMemo() {
     const newMemo = {
       text: inputValue,
       detail: detailValue,
+      detailOpen: false,
       done: false,
       createdAt: new Date().toISOString(),
       priority: selectedPriority,
@@ -719,6 +744,7 @@ function addMemo() {
   } else {
     memos[editIndex].text = inputValue;
     memos[editIndex].detail = detailValue;
+    memos[editIndex].detailOpen = false;
     memos[editIndex].priority = selectedPriority;
     memos[editIndex].category = selectedCategory;
     memos[editIndex].dueDate = selectedDueDate;
