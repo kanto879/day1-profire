@@ -1034,3 +1034,34 @@ input {
   background-color: #f5f5f5;
   transform: translateY(-1px);
 }
+
+#detailInput {
+  width: 100%;
+  min-height: 90px;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 2px solid #d9e6ff;
+  border-radius: 16px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  background-color: white;
+  font-family: sans-serif;
+  resize: vertical;
+}
+
+#detailInput:focus {
+  outline: none;
+  border-color: #0055cc;
+  box-shadow: 0 0 0 4px rgba(0, 85, 204, 0.12);
+}
+
+.memo-detail {
+  margin: 4px 0;
+  padding: 10px 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  color: #555555;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}

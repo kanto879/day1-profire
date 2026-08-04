@@ -1,4 +1,5 @@
 const memoInput = document.getElementById("memoInput");
+const detailInput = document.getElementById("detailInput");
 const prioritySelect = document.getElementById("prioritySelect");
 const categorySelect = document.getElementById("categorySelect");
 const dueDateInput = document.getElementById("dueDateInput");
@@ -399,6 +400,7 @@ function resetEditMode() {
   editIndex = null;
   addButton.textContent = "追加する";
   memoInput.value = "";
+  detailInput.value = "";
   prioritySelect.value = "medium";
   categorySelect.value = "study";
   dueDateInput.value = "";
@@ -586,6 +588,10 @@ function renderMemos() {
     const memoText = document.createElement("span");
     memoText.textContent = memo.text;
 
+    const memoDetail = document.createElement("p");
+    memoDetail.classList.add("memo-detail");
+    memoDetail.textContent = memo.detail || "";
+
     const memoPriority = document.createElement("small");
     memoPriority.classList.add("memo-priority");
     memoPriority.textContent = "優先度：" + getPriorityText(memo.priority);
@@ -607,6 +613,12 @@ function renderMemos() {
     const memoDate = document.createElement("small");
     memoDate.classList.add("memo-date");
     memoDate.textContent = "作成日：" + formatDate(memo.createdAt);
+
+    memoContent.appendChild(memoText);
+
+   if (memo.detail) {
+    memoContent.appendChild(memoDetail);
+    }
 
     memoContent.appendChild(memoText);
     memoContent.appendChild(memoPriority);
@@ -641,6 +653,7 @@ function renderMemos() {
 
       editIndex = originalIndex;
       memoInput.value = memo.text;
+      detailInput.value = memo.detail || "";
       prioritySelect.value = memo.priority || "medium";
       categorySelect.value = memo.category || "study";
       dueDateInput.value = memo.dueDate || "";
@@ -681,6 +694,7 @@ function renderMemos() {
 
 function addMemo() {
   const inputValue = memoInput.value;
+  const detailValue = detailInput.value;
   const selectedPriority = prioritySelect.value;
   const selectedCategory = categorySelect.value;
   const selectedDueDate = dueDateInput.value;
@@ -693,6 +707,7 @@ function addMemo() {
   if (editIndex === null) {
     const newMemo = {
       text: inputValue,
+      detail: detailValue,
       done: false,
       createdAt: new Date().toISOString(),
       priority: selectedPriority,
@@ -703,6 +718,7 @@ function addMemo() {
     memos.push(newMemo);
   } else {
     memos[editIndex].text = inputValue;
+    memos[editIndex].detail = detailValue;
     memos[editIndex].priority = selectedPriority;
     memos[editIndex].category = selectedCategory;
     memos[editIndex].dueDate = selectedDueDate;
