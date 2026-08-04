@@ -48,6 +48,8 @@ const sortPriorityButton = document.getElementById("sortPriorityButton");
 const sortDueDateButton = document.getElementById("sortDueDateButton");
 const sortDateButton = document.getElementById("sortDateButton");
 
+const resetViewButton = document.getElementById("resetViewButton");
+
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
 
 let editIndex = null;
@@ -401,6 +403,18 @@ function resetEditMode() {
   categorySelect.value = "study";
   dueDateInput.value = "";
   memoInput.focus();
+}
+
+function resetViewSettings() {
+  searchInput.value = "";
+
+  currentFilter = "all";
+  currentDueFilter = "all";
+  currentPriorityFilter = "all";
+  currentCategoryFilter = "all";
+  currentSort = "date";
+
+  renderMemos();
 }
 
 function getFilteredMemos() {
@@ -912,6 +926,10 @@ sortDueDateButton.addEventListener("click", function() {
 sortDateButton.addEventListener("click", function() {
   currentSort = "date";
   renderMemos();
+});
+
+resetViewButton.addEventListener("click", function() {
+  resetViewSettings();
 });
 
 searchInput.addEventListener("input", function() {
