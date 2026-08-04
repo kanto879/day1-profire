@@ -370,6 +370,29 @@ function updateCategoryFilterButtons() {
   }
 }
 
+function updateSortButtons() {
+  sortUrgencyButton.classList.remove("active-sort");
+  sortPriorityButton.classList.remove("active-sort");
+  sortDueDateButton.classList.remove("active-sort");
+  sortDateButton.classList.remove("active-sort");
+
+  if (currentSort === "urgency") {
+    sortUrgencyButton.classList.add("active-sort");
+  }
+
+  if (currentSort === "priority") {
+    sortPriorityButton.classList.add("active-sort");
+  }
+
+  if (currentSort === "dueDate") {
+    sortDueDateButton.classList.add("active-sort");
+  }
+
+  if (currentSort === "date") {
+    sortDateButton.classList.add("active-sort");
+  }
+}
+
 function resetEditMode() {
   editIndex = null;
   addButton.textContent = "追加する";
@@ -639,6 +662,7 @@ function renderMemos() {
   updateDueFilterButtons();
   updatePriorityFilterButtons();
   updateCategoryFilterButtons();
+  updateSortButtons();
 }
 
 function addMemo() {

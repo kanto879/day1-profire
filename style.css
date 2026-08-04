@@ -1007,3 +1007,9 @@ input {
 .sort-button {
   min-width: 160px;
 }
+
+.active-sort {
+  background-color: #333333;
+  color: white;
+  border-color: #333333;
+}
