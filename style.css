@@ -1083,3 +1083,38 @@ input {
   background-color: #eef4ff;
   transform: translateY(-1px);
 }
+
+.progress-box {
+  background-color: #ffffff;
+  border: 2px solid #d9e6ff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.progress-box p {
+  margin: 0 0 10px;
+  font-weight: bold;
+  color: #004499;
+}
+
+.progress-box span {
+  font-size: 22px;
+  color: #0055cc;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background-color: #eef4ff;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background-color: #0055cc;
+  border-radius: 999px;
+  transition: 0.3s;
+}

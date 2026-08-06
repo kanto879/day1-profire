@@ -19,6 +19,9 @@ const totalCount = document.getElementById("totalCount");
 const doneCount = document.getElementById("doneCount");
 const activeCount = document.getElementById("activeCount");
 
+const progressPercent = document.getElementById("progressPercent");
+const progressFill = document.getElementById("progressFill");
+
 const studyCount = document.getElementById("studyCount");
 const workCount = document.getElementById("workCount");
 const personalCount = document.getElementById("personalCount");
@@ -253,9 +256,18 @@ function updateCounts() {
 
   const active = total - done;
 
+  let percent = 0;
+
+  if (total > 0) {
+    percent = Math.round((done / total) * 100);
+  }
+
   totalCount.textContent = total;
   doneCount.textContent = done;
   activeCount.textContent = active;
+
+  progressPercent.textContent = percent;
+  progressFill.style.width = percent + "%";
 }
 
 function updateCategoryCounts() {
