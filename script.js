@@ -22,6 +22,10 @@ const activeCount = document.getElementById("activeCount");
 const progressPercent = document.getElementById("progressPercent");
 const progressFill = document.getElementById("progressFill");
 
+const overdueCount = document.getElementById("overdueCount");
+const todayDueCount = document.getElementById("todayDueCount");
+const soonDueCount = document.getElementById("soonDueCount");
+
 const studyCount = document.getElementById("studyCount");
 const workCount = document.getElementById("workCount");
 const personalCount = document.getElementById("personalCount");
@@ -268,6 +272,18 @@ function updateCounts() {
 
   progressPercent.textContent = percent;
   progressFill.style.width = percent + "%";
+
+  progressFill.classList.remove("progress-low");
+  progressFill.classList.remove("progress-middle");
+  progressFill.classList.remove("progress-complete");
+
+  if (percent === 100) {
+    progressFill.classList.add("progress-complete");
+  } else if (percent >= 50) {
+    progressFill.classList.add("progress-middle");
+  } else {
+    progressFill.classList.add("progress-low");
+  }
 }
 
 function updateCategoryCounts() {
@@ -291,6 +307,36 @@ function updateCategoryCounts() {
   workCount.textContent = work;
   personalCount.textContent = personal;
   otherCount.textContent = other;
+}
+
+function updateDueCounts() {
+  const overdue = memos.filter(function(memo) {
+    return !memo.done && isOverdue(memo.dueDate);
+  }).length;
+
+  const todayDue = memos.filter(function(memo) {
+    if (memo.done || !memo.dueDate) {
+      return false;
+    }
+
+    const days = getDaysUntilDue(memo.dueDate);
+
+    return days === 0;
+  }).length;
+
+  const soonDue = memos.filter(function(memo) {
+    if (memo.done || !memo.dueDate) {
+      return false;
+    }
+
+    const days = getDaysUntilDue(memo.dueDate);
+
+    return days >= 1 && days <= 3;
+  }).length;
+
+  overdueCount.textContent = overdue;
+  todayDueCount.textContent = todayDue;
+  soonDueCount.textContent = soonDue;
 }
 
 function updateFilterButtons() {
@@ -721,6 +767,7 @@ function renderMemos() {
 
   updateCounts();
   updateCategoryCounts();
+  updateDueCounts();
   updateFilterButtons();
   updateDueFilterButtons();
   updatePriorityFilterButtons();
