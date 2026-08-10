@@ -369,6 +369,13 @@ function updateAlerts() {
     const overdueMessage = document.createElement("p");
     overdueMessage.classList.add("alert-overdue");
     overdueMessage.textContent = "⚠️ 期限切れのメモが " + overdue + " 件あります";
+
+    overdueMessage.addEventListener("click", function() {
+  searchInput.value = "";
+  currentDueFilter = "overdue";
+  renderMemos();
+});
+
     alertBox.appendChild(overdueMessage);
   }
 
@@ -376,6 +383,13 @@ function updateAlerts() {
     const todayMessage = document.createElement("p");
     todayMessage.classList.add("alert-today");
     todayMessage.textContent = "🔥 今日が期限のメモが " + todayDue + " 件あります";
+
+    todayMessage.addEventListener("click", function() {
+  searchInput.value = "";
+  currentDueFilter = "todayDue";
+  renderMemos();
+});
+
     alertBox.appendChild(todayMessage);
   }
 }
@@ -536,23 +550,36 @@ function getFilteredMemos() {
   }
 
   if (currentDueFilter === "overdue") {
-    filteredMemos = filteredMemos.filter(function(memo) {
-      return isOverdue(memo.dueDate) && !memo.done;
-    });
-  }
+  filteredMemos = filteredMemos.filter(function(memo) {
+    return isOverdue(memo.dueDate) && !memo.done;
+  });
+}
 
-  if (currentDueFilter === "withDue") {
-    filteredMemos = filteredMemos.filter(function(memo) {
-      return memo.dueDate;
-    });
-  }
+if (currentDueFilter === "todayDue") {
+  filteredMemos = filteredMemos.filter(function(memo) {
+    if (memo.done || !memo.dueDate) {
+      return false;
+    }
 
-  if (currentDueFilter === "noDue") {
-    filteredMemos = filteredMemos.filter(function(memo) {
-      return !memo.dueDate;
-    });
-  }
+    const days = getDaysUntilDue(memo.dueDate);
 
+    return days === 0;
+  });
+}
+
+if (currentDueFilter === "withDue") {
+  filteredMemos = filteredMemos.filter(function(memo) {
+    return memo.dueDate;
+  });
+}
+
+if (currentDueFilter === "noDue") {
+  filteredMemos = filteredMemos.filter(function(memo) {
+    return !memo.dueDate;
+  });
+}
+
+ 
   if (currentPriorityFilter === "high") {
     filteredMemos = filteredMemos.filter(function(memo) {
       return memo.priority === "high";

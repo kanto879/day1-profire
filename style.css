@@ -1188,3 +1188,13 @@ input {
   color: #cc6600;
   border: 2px solid #ffcc80;
 }
+
+.alert-box p {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.alert-box p:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
