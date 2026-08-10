@@ -26,6 +26,8 @@ const overdueCount = document.getElementById("overdueCount");
 const todayDueCount = document.getElementById("todayDueCount");
 const soonDueCount = document.getElementById("soonDueCount");
 
+const alertBox = document.getElementById("alertBox");
+
 const studyCount = document.getElementById("studyCount");
 const workCount = document.getElementById("workCount");
 const personalCount = document.getElementById("personalCount");
@@ -337,6 +339,45 @@ function updateDueCounts() {
   overdueCount.textContent = overdue;
   todayDueCount.textContent = todayDue;
   soonDueCount.textContent = soonDue;
+}
+
+function updateAlerts() {
+  const overdue = memos.filter(function(memo) {
+    return !memo.done && isOverdue(memo.dueDate);
+  }).length;
+
+  const todayDue = memos.filter(function(memo) {
+    if (memo.done || !memo.dueDate) {
+      return false;
+    }
+
+    const days = getDaysUntilDue(memo.dueDate);
+
+    return days === 0;
+  }).length;
+
+  alertBox.innerHTML = "";
+
+  if (overdue === 0 && todayDue === 0) {
+    alertBox.style.display = "none";
+    return;
+  }
+
+  alertBox.style.display = "block";
+
+  if (overdue > 0) {
+    const overdueMessage = document.createElement("p");
+    overdueMessage.classList.add("alert-overdue");
+    overdueMessage.textContent = "⚠️ 期限切れのメモが " + overdue + " 件あります";
+    alertBox.appendChild(overdueMessage);
+  }
+
+  if (todayDue > 0) {
+    const todayMessage = document.createElement("p");
+    todayMessage.classList.add("alert-today");
+    todayMessage.textContent = "🔥 今日が期限のメモが " + todayDue + " 件あります";
+    alertBox.appendChild(todayMessage);
+  }
 }
 
 function updateFilterButtons() {
@@ -768,6 +809,7 @@ function renderMemos() {
   updateCounts();
   updateCategoryCounts();
   updateDueCounts();
+  updateAlerts();
   updateFilterButtons();
   updateDueFilterButtons();
   updatePriorityFilterButtons();

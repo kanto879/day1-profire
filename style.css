@@ -1164,3 +1164,27 @@ input {
   font-size: 22px;
   color: #ff4d4d;
 }
+
+.alert-box {
+  display: none;
+  margin-top: 16px;
+}
+
+.alert-box p {
+  margin: 0 0 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-weight: bold;
+}
+
+.alert-overdue {
+  background-color: #fff5f5;
+  color: #cc0000;
+  border: 2px solid #ff9999;
+}
+
+.alert-today {
+  background-color: #fff7ed;
+  color: #cc6600;
+  border: 2px solid #ffcc80;
+}
