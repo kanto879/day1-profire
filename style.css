@@ -1198,3 +1198,25 @@ input {
   transform: translateY(-1px);
   opacity: 0.85;
 }
+
+.today-action-box {
+  margin-top: 16px;
+}
+
+.today-action-button {
+  width: 100%;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 6px 18px rgba(255, 77, 77, 0.2);
+}
+
+.today-action-button:hover {
+  background-color: #cc0000;
+  transform: translateY(-1px);
+}
