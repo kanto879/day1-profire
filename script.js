@@ -59,6 +59,7 @@ const sortDueDateButton = document.getElementById("sortDueDateButton");
 const sortDateButton = document.getElementById("sortDateButton");
 
 const todayActionButton = document.getElementById("todayActionButton");
+const tomorrowActionButton = document.getElementById("tomorrowActionButton");
 const resetViewButton = document.getElementById("resetViewButton");
 
 let memos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -577,6 +578,18 @@ if (currentDueFilter === "todayAction") {
     const days = getDaysUntilDue(memo.dueDate);
 
     return days <= 0;
+  });
+}
+
+if (currentDueFilter === "tomorrowAction") {
+  filteredMemos = filteredMemos.filter(function(memo) {
+    if (memo.done || !memo.dueDate) {
+      return false;
+    }
+
+    const days = getDaysUntilDue(memo.dueDate);
+
+    return days === 1;
   });
 }
 
@@ -1118,6 +1131,16 @@ todayActionButton.addEventListener("click", function() {
   currentPriorityFilter = "all";
   currentCategoryFilter = "all";
   currentSort = "urgency";
+  renderMemos();
+});
+
+tomorrowActionButton.addEventListener("click", function() {
+  searchInput.value = "";
+  currentFilter = "active";
+  currentDueFilter = "tomorrowAction";
+  currentPriorityFilter = "all";
+  currentCategoryFilter = "all";
+  currentSort = "dueDate";
   renderMemos();
 });
 

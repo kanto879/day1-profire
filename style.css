@@ -185,6 +185,7 @@ input {
 .delete-button:hover {
   background-color: #cc0000;
 }
+
 @media (max-width: 600px) {
 
     .input-box {
@@ -353,6 +354,15 @@ input {
 
   .due-count-box p {
     text-align: left;
+  }
+
+    .action-shortcut-box {
+    flex-direction: column;
+  }
+
+  .today-action-button,
+  .tomorrow-action-button {
+    width: 100%;
   }
 }
 
@@ -1218,5 +1228,43 @@ input {
 
 .today-action-button:hover {
   background-color: #cc0000;
+  transform: translateY(-1px);
+}
+
+.action-shortcut-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.today-action-button,
+.tomorrow-action-button {
+  flex: 1;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.today-action-button {
+  background-color: #ff4d4d;
+  box-shadow: 0 6px 18px rgba(255, 77, 77, 0.2);
+}
+
+.today-action-button:hover {
+  background-color: #cc0000;
+  transform: translateY(-1px);
+}
+
+.tomorrow-action-button {
+  background-color: #ff9900;
+  box-shadow: 0 6px 18px rgba(255, 153, 0, 0.2);
+}
+
+.tomorrow-action-button:hover {
+  background-color: #cc7700;
   transform: translateY(-1px);
 }
